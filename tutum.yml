@@ -8,12 +8,16 @@ lb:
     - global
   volumes:
     - '/data:/data'
+  autoredeploy: ON_SUCCESS
+############################################
 web:
   image: 'amsatique/transcode-frontend'
   links:
   target_num_containers: 2
   volumes:
     - '/data:/data'
+  autoredeploy: ON_SUCCESS
+############################################
 back:
   image: 'amsatique/transcode-backend'
   links:
@@ -21,6 +25,9 @@ back:
   target_num_containers: 2
   ports:
     - '3000:3000'
+  autoredeploy: ON_SUCCESS
+  volumes:
+    - '/data:/data'
   environment:
     - MONGODB_NAME=Transcode
     - MONGODB_USER=admin
@@ -29,6 +36,7 @@ back:
     - EMAIL=amsatique@gmail.com
     - EMAIL_NAME=amsatique
     - EMAIL_PASSWD=Supinf0
+#############################################
 bdd:
   image: 'amsatique/transcode-bdd'
   target_num_containers: 2
@@ -36,5 +44,6 @@ bdd:
     - '27017:27017'
   volumes:
     - '/data:/data'
+  autoredeploy: ON_SUCCESS
   environment:
     - MONGODB_PASS=P@$$w0rd

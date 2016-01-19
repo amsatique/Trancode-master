@@ -1,5 +1,5 @@
 lb:
-  image: 'tutum/haproxy:latest'
+  image: 'amsatique/haproxy:latest'
   links:
     - web
   ports:
@@ -9,7 +9,8 @@ lb:
   volumes:
     - '/data:/data'
 web:
-  image: 'tutum/hello-world:latest'
+  image: 'amsatique/transcode-frontend'
+  links:
   target_num_containers: 2
   volumes:
     - '/data:/data'
@@ -21,13 +22,13 @@ back:
   ports:
     - '3000:3000'
   environment:
-    - DB_NAME=Transcode
-    - DB_PASSWD=P@$$w0rd
-    - Private_Key=
+    - MONGODB_NAME=Transcode
+    - MONGODB_USER=admin
+    - MONGODB_PASS=P@$$w0rd
+    - PRIVATE_KEY=
     - EMAIL=amsatique@gmail.com
     - EMAIL_NAME=amsatique
     - EMAIL_PASSWD=Supinf0
-
 bdd:
   image: 'amsatique/transcode-bdd'
   target_num_containers: 2
@@ -35,3 +36,5 @@ bdd:
     - '27017:27017'
   volumes:
     - '/data:/data'
+  environment:
+    - MONGODB_PASS=P@$$w0rd

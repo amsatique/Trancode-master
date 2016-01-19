@@ -1,0 +1,37 @@
+lb:
+  image: 'tutum/haproxy:latest'
+  links:
+    - web
+  ports:
+    - '80:80'
+  roles:
+    - global
+  volumes:
+    - '/data:/data'
+web:
+  image: 'tutum/hello-world:latest'
+  target_num_containers: 2
+  volumes:
+    - '/data:/data'
+back:
+  image: 'amsatique/transcode-backend'
+  links:
+    -bdd
+  target_num_containers: 2
+  ports:
+    - '3000:3000'
+  environment:
+    - DB_NAME=Transcode
+    - DB_PASSWD=P@$$w0rd
+    - Private_Key=
+    - EMAIL=amsatique@gmail.com
+    - EMAIL_NAME=amsatique
+    - EMAIL_PASSWD=Supinf0
+
+bdd:
+  image: 'amsatique/transcode-bdd'
+  target_num_containers: 2
+  ports:
+    - '27017:27017'
+  volumes:
+    - '/data:/data'
